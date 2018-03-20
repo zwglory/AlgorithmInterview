@@ -35,7 +35,7 @@ def selection_sort(l):
     while flag:
         for i in range(last_min, n-1):
             if tl[i] < tl[last_min]:
-
+                pass
 
     print("[src]", l)
     print("[tar]", tl)
