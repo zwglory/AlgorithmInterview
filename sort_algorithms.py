@@ -1,4 +1,5 @@
 # -*- coding:utf-8 -*-
+from __future__ import print_function
 import random
 from time_wrapper import timing
 
@@ -28,14 +29,40 @@ def bubble_sort(l):
 @timing
 def selection_sort(l):
     tl = list(l)
-    i_min = 1
-    last_min = 0
-    flag = False
     n = len(tl)
-    while flag:
-        for i in range(last_min, n-1):
-            if tl[i] < tl[last_min]:
-                pass
+    for i in range(0, n):
+        i_min = i
+        for j in range(i, n):
+            if tl[i_min] > tl[j]:
+                i_min = j
+        tl[i_min], tl[i] = tl[i], tl[i_min]
+
+    print("[src]", l)
+    print("[tar]", tl)
+    return tl
+
+
+@timing
+def insertion_sort(l):
+    """
+    找到第一个无序的索引，把它和前面的数依次对比，如果大则往后移动一位
+    否则，说明找到了插入的位置，则将当前数字插入
+    :param l:
+    :return:
+    """
+    tl = list(l)
+    n = len(tl)
+    for i in range(1, n):
+        if tl[i-1] > tl[i]:     # 找到无序的位置
+            temp = tl[i]
+            index = i       # 待插入的下标
+            for j in range(i-1, -1, -1):    # 从i-1 循环到 0 (包括0)
+                if tl[j] > temp:
+                    tl[j+1] = tl[j]
+                    index = j   # 记录待插入下标
+                else:
+                    break
+            tl[index] = temp
 
     print("[src]", l)
     print("[tar]", tl)
@@ -44,8 +71,11 @@ def selection_sort(l):
 
 def test_main():
     test_list = [random.randint(0, 100) for _ in range(100)]
-    l_sorted = bubble_sort(l=test_list)
-    l_sorted = selection_sort(l=test_list)
+    # test_list = []
+
+    l_sorted = bubble_sort(test_list)
+    l_sorted = selection_sort(test_list)
+    l_sorted = insertion_sort(test_list)
 
 
 if __name__ == "__main__":
