@@ -5,6 +5,12 @@ from time_wrapper import timing
 
 @timing
 def bubble_sort(l):
+    """
+    从第一个数字开始依次与后面一个数比较，如果比它大/小则交换两个数字
+    保证最后一个数一定是列表中最大/小的数字
+    :param l:
+    :return:
+    """
     tl = list(l)
     n = len(tl)
     k = n   # 用于记录最后交换的位置，说明后面的列表已经是有序的了
@@ -27,15 +33,21 @@ def bubble_sort(l):
 
 @timing
 def selection_sort(l):
+    """
+    记录最小的数字的下标
+    先默认地一个最小，然后从后面找出最小和地一个做替换
+    :param l:
+    :return:
+    """
     tl = list(l)
-    i_min = 1
-    last_min = 0
-    flag = False
     n = len(tl)
-    while flag:
-        for i in range(last_min, n-1):
-            if tl[i] < tl[last_min]:
-                pass
+
+    for i in range(n):
+        i_min = i
+        for j in range(i+1, n):
+            if tl[i_min] > tl[j]:
+                i_min = j
+        tl[i_min], tl[i] = tl[i], tl[i_min]
 
     print("[src]", l)
     print("[tar]", tl)
@@ -44,8 +56,8 @@ def selection_sort(l):
 
 def test_main():
     test_list = [random.randint(0, 100) for _ in range(100)]
-    l_sorted = bubble_sort(l=test_list)
-    l_sorted = selection_sort(l=test_list)
+    l_sorted = bubble_sort(test_list)
+    l_sorted = selection_sort(test_list)
 
 
 if __name__ == "__main__":
