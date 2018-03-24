@@ -1,4 +1,5 @@
 # -*- coding:utf-8 -*-
+from __future__ import print_function
 import random
 from time_wrapper import timing
 
