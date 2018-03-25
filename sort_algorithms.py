@@ -4,9 +4,10 @@ import random
 from time_wrapper import timing
 
 
+#####################################
 @timing
 def bubble_sort(l):
-    """
+    """冒泡排序
     从第一个数字开始依次与后面一个数比较，如果比它大/小则交换两个数字
     保证最后一个数一定是列表中最大/小的数字
     :param l:
@@ -27,14 +28,15 @@ def bubble_sort(l):
         if flag:
             break
 
-    print("[src]", l)
-    print("[tar]", tl)
+    print("[src]", l[:100])
+    print("[tar]", tl[:100])
     return tl
 
 
+#####################################
 @timing
 def selection_sort(l):
-    """
+    """选择排序
     记录最小的数字的下标
     先默认地一个最小，然后从后面找出最小和地一个做替换
     :param l:
@@ -49,14 +51,15 @@ def selection_sort(l):
                 i_min = j
         tl[i_min], tl[i] = tl[i], tl[i_min]
 
-    print("[src]", l)
-    print("[tar]", tl)
+    print("[src]", l[:100])
+    print("[tar]", tl[:100])
     return tl
 
 
+#####################################
 @timing
 def insertion_sort(l):
-    """
+    """插入排序
     找到第一个无序的索引，把它和前面的数依次对比，如果大则往后移动一位
     否则，说明找到了插入的位置，则将当前数字插入
     :param l:
@@ -76,18 +79,88 @@ def insertion_sort(l):
                     break
             tl[index] = temp
 
-    print("[src]", l)
-    print("[tar]", tl)
+    print("[src]", l[:100])
+    print("[tar]", tl[:100])
     return tl
 
 
+#####################################
+@timing
+def shell_sort(l):
+    """希尔排序
+    就是把一个数组按照一定的步长分开，然后做插入排序
+    有时候快的飞起
+    :param l:
+    :return:
+    """
+    tl = list(l)
+    n = len(tl)
+    gap = int(n/2.)
+    while gap > 0:
+        for i in range(gap, n):
+            temp = tl[i]
+            j = i
+            while j > gap and tl[j-gap] > temp:
+                tl[j] = tl[j-gap]
+                j = j - gap
+            tl[j] = temp
+        gap = int(gap/2.)
+
+    print("[src]", l[:100])
+    print("[tar]", tl[:100])
+    return tl
+
+
+#####################################
+def merge(left, right):
+    merged = []
+    l_idx, r_idx = 0, 0
+    while l_idx < len(left) and r_idx < len(right):
+        if left[l_idx] < right[r_idx]:
+            merged.append(left[l_idx])
+            l_idx += 1
+        else:
+            merged.append(right[r_idx])
+            r_idx += 1
+    merged += left[l_idx:] + right[r_idx:]
+    return merged
+
+
+def merge_sort(l):
+    """归并排序
+    :param l:
+    :return:
+    """
+    tl = list(l)
+    if len(tl) <= 1:
+        return tl
+    n = len(tl)
+    split_idx = int(n/2.)
+    sorted_left  = merge_sort(l=tl[:split_idx])
+    sorted_right = merge_sort(l=tl[split_idx:])
+    return merge(left=sorted_left, right=sorted_right)
+
+
+#####################################
+@timing
+def build_in_sort(l):
+    tl = sorted(l)
+    print("[src]", l[:100])
+    print("[tar]", tl[:100])
+    return tl
+
+
+#####################################
 def test_main():
-    test_list = [random.randint(0, 100) for _ in range(100)]
-    # test_list = []
+    test_list = [random.randint(0, 1000) for _ in range(1000)]
 
     l_sorted = bubble_sort(test_list)
     l_sorted = selection_sort(test_list)
     l_sorted = insertion_sort(test_list)
+    l_sorted = shell_sort(test_list)
+    l_sorted = merge_sort(test_list)
+
+    l_sorted = build_in_sort(test_list)
 
 
 if __name__ == "__main__":
