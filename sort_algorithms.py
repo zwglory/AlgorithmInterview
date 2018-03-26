@@ -192,7 +192,7 @@ def quick_sort(l):
 
 #####################################
 def max_heapify(ary, start, end):
-    """
+    """维护最大堆
     最大堆调整：将堆的末端子节点作调整，使得子节点永远小于父节点
     start 为当前需要调整最大堆的位置，end 为调整边界
     :param ary:
@@ -202,14 +202,16 @@ def max_heapify(ary, start, end):
     """
     root = start
     while True :
-        child = root * 2 + 1               # 调整节点的子节点
-        if child > end:
+        left = root * 2
+        if left > end:
             break
-        if child + 1 <= end and ary[child] < ary[child+1]:
-            child = child + 1             # 取较大的子节点
-        if ary[root] < ary[child]:     # 较大的子节点成为父节点
-            ary[root], ary[child] = ary[child], ary[root]     # 交换
-            root = child
+        right = left + 1
+        max_node = left
+        if right <= end and ary[left] < ary[right]:
+            max_node = right           # 取较大的子节点
+        if ary[root] < ary[max_node]:  # 较大的子节点成为父节点
+            ary[root], ary[max_node] = ary[max_node], ary[root]
+            root = max_node
         else:
             break
 
@@ -219,16 +221,23 @@ def heap_sort(l):
     """堆排序
     堆排序在 top K 问题中使用比较频繁。
     堆排序是采用二叉堆的数据结构来实现的，
-    虽然实质上还是一维数组。二叉堆是一个近似完全二叉树 。
+    虽然实质上还是一维数组，对应索引符合二叉堆的性质
     :param l:
     :return:
     """
     tl = list(l)
     n = len(tl)
-    first = int(n / 2 - 1)  # 最后一个非叶子节点
-    for start in range(first, -1, -1):  # 构造大根堆
+
+    # 构造最大堆（自底向上）
+    # 子数组 A(n/2+1 .. n) 中的元素都是叶子节点
+    first = int(n / 2)  # 最后一个非叶子节点（也就是最后一个节点的父节点）
+    for start in range(first, -1, -1):
         max_heapify(tl, start, n - 1)
-    for end in range(n - 1, 0, -1):  # 堆排，将大根堆转换成有序数组
+
+    # 堆排，将最大堆转换成有序数组（自顶向下）
+    # 方法：将根节点和最后一个节点交换，则数组最后的元素为最大，剩下的违背了最大堆规则
+    # 需要将剩下的元素
+    for end in range(n - 1, 0, -1):
         tl[end], tl[0] = tl[0], tl[end]
         max_heapify(tl, 0, end - 1)
 
