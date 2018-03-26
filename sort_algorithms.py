@@ -1,4 +1,9 @@
 # -*- coding:utf-8 -*-
+"""
+参考：
+https://www.cs.usfca.edu/~galles/visualization/ComparisonSort.html
+http://wuchong.me/blog/2014/02/09/algorithm-sort-summary/
+"""
 from __future__ import print_function
 import time
 import random
@@ -197,15 +202,15 @@ def max_heapify(ary, start, end):
     """
     root = start
     while True :
-        child = root*2 +1               #调整节点的子节点
-        if child > end :
+        child = root * 2 + 1               # 调整节点的子节点
+        if child > end:
             break
-        if child+1 <= end and ary[child] < ary[child+1] :
-            child = child+1             #取较大的子节点
-        if ary[root] < ary[child] :     #较大的子节点成为父节点
-            ary[root],ary[child] = ary[child],ary[root]     #交换
+        if child + 1 <= end and ary[child] < ary[child+1]:
+            child = child + 1             # 取较大的子节点
+        if ary[root] < ary[child]:     # 较大的子节点成为父节点
+            ary[root], ary[child] = ary[child], ary[root]     # 交换
             root = child
-        else :
+        else:
             break
 
 
